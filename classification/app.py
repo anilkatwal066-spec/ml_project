@@ -4,7 +4,7 @@ import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-model = joblib.load("classification/titanic_model.pkl")
+model = joblib.load("titanic_model.pkl")
 
 
 st.title("Titanic Survival Prediction")
@@ -17,6 +17,28 @@ if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
 
     st.write(df.head())
+
+    # Dashboard
+    st.subheader("Dashboard")
+
+    total_passengers = len(df)
+    survivors = int(df["Survived"].sum())
+    deaths = total_passengers - survivors
+    survival_rate = (survivors / total_passengers) * 100
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.metric("Total Passengers", total_passengers)
+
+    with col2:
+        st.metric("Survivors", survivors)
+
+    with col3:
+        st.metric("Deaths", deaths)
+
+    with col4:
+        st.metric("Survival Rate", f"{survival_rate:.1f}%")
 
     chart = st.selectbox(
         "Select Visualization",

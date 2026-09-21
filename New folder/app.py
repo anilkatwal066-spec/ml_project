@@ -19,6 +19,23 @@ if file:
 
     numeric_columns = df.select_dtypes(include="number").columns.tolist()
 
+    # Dashboard
+    st.subheader("Dashboard")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.metric("Total Rows", df.shape[0])
+
+    with col2:
+        st.metric("Total Columns", df.shape[1])
+
+    with col3:
+        st.metric("Numeric Columns", len(numeric_columns))
+
+    with col4:
+        st.metric("Missing Values", int(df.isnull().sum().sum()))
+
     chart_type = st.sidebar.selectbox(
         "Select Chart Type",
         ["Line Chart", "Bar Chart", "Pie Chart"]
@@ -64,13 +81,10 @@ if file:
 
 
 # Load trained model
-
 model = joblib.load(r"F:\mlproject\New folder\insurance_model.pkl")
 
 
-
 # Insurance prediction
-
 st.subheader("Insurance Charges Prediction")
 
 age = st.number_input(
